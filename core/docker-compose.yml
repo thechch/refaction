@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+    webapi:
+        container_name: refactor-me
+        build:
+            context: ./src/refactor-me.
+            dockerfile: ./Dockerfile
+        ports:
+            - "5000:5000"
+        networks: 
+            - refactor-network
+        volumes:
+            - ./src/refactor-me:/usr/src/refactor-me
+        command: ./run_webapi.sh
+networks: 
+    refactor-network:
+        driver: bridge
