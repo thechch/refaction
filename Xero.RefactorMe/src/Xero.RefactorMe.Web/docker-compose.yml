@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+    webapi:
+        container_name: web
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        depends_on: 
+            - db
+        ports:
+            - "5000:5000"
+        networks: 
+            - refactor-me-network
+        volumes:
+            - .:/usr/src/refactor-me
+        command: ./run_webapi.sh
+    db:
+        container_name: postgres
+        image: postgres:9.6
+        environment: 
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: refactor-me
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        networks: 
+            - refactor-me-network
+networks: 
+    refactor-me-network:
+        driver: bridge
+volumes:
+    postgres_data:
+        driver: local

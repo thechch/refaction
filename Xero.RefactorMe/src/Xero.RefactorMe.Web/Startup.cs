@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 
-namespace refactor_me
+namespace Xero.RefactorMe.Web
 {
     public class Startup
     {
