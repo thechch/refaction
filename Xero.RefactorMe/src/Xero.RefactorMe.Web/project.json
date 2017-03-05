@@ -2,7 +2,8 @@
   "userSecretsId": "RefactorMe",
 
   "dependencies": {
-    "AutoMapper.Data": "1.0.0-beta1",
+    "AutoMapper": "*",
+    "AutoMapper.Extensions.Microsoft.DependencyInjection": "*",
     "FluentValidation": "6.2.1",
     "Microsoft.NETCore.App": {
       "version": "1.1.0",

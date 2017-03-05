@@ -13,6 +13,7 @@ namespace Xero.RefactorMe.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //EntityTypeConfiguration<T> is not supported in EF Core yet. Need to find a workaround.
             modelBuilder.Entity<Product>()
                 .ToTable("Product");
 

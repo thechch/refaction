@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 using Newtonsoft.Json;
 using Xero.RefactorMe.Data;
 using Xero.RefactorMe.Data.Abstract;
-
 
 namespace Xero.RefactorMe.Web
 {
@@ -44,6 +44,8 @@ namespace Xero.RefactorMe.Web
                     {
                         o.SerializerSettings.Formatting = Formatting.Indented;
                     });
+            //AutoMapper
+            services.AddAutoMapper();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
