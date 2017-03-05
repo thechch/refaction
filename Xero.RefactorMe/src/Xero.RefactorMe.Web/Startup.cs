@@ -3,7 +3,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Xero.RefactorMe.Data;
+using Xero.RefactorMe.Data.Abstract;
+
 
 namespace Xero.RefactorMe.Web
 {
@@ -22,6 +26,19 @@ namespace Xero.RefactorMe.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var sqlConnectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            services.AddDbContext<RefactorMeDbContext>(options =>
+                options.UseNpgsql(
+                    sqlConnectionString,
+                    b => b.MigrationsAssembly("Xero.RefactorMe.Web")
+                )
+            );
+
+            // Repositories
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductOptionRepository, ProductOptionRepository>();
+
             services.AddMvc()
                     .AddJsonOptions(o =>
                     {
@@ -34,7 +51,10 @@ namespace Xero.RefactorMe.Web
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseDatabaseErrorPage();
             app.UseMvc();
+
+            RefactorMeDbInitializer.Initialize(app.ApplicationServices);
         }
     }
 }

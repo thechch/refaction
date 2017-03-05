@@ -16,7 +16,7 @@ services:
             - .:/usr/src/refactor-me
         command: ./run_webapi.sh
     db:
-        container_name: postgres
+        container_name: refme-pgrs
         image: postgres:9.6
         environment: 
             POSTGRES_USER: postgres
