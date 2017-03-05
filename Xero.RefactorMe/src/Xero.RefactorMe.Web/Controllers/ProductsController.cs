@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Xero.RefactorMe.Data.Abstract;
@@ -10,7 +12,7 @@ namespace Xero.RefactorMe.Web.Controllers
     [Route("api/[controller]")]
     public class ProductsController : Controller
     {
-        private IProductRepository _productRepository {get; set;}
+        private IProductRepository _productRepository { get; set; }
         private IMapper _mapper;
         public ProductsController(IProductRepository productRepository, IMapper mapper)
         {
@@ -19,19 +21,38 @@ namespace Xero.RefactorMe.Web.Controllers
         }
         //GET api/products
         [HttpGet]
-        public IEnumerable<ProductViewModel> GetAllProducts() {
+        public IEnumerable<ProductViewModel> GetAll()
+        {
             var products = _productRepository.GetAll();
-            var mappedProducts = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(products);
+            var mappedProducts = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(products).ToList();
+
+            if (!(mappedProducts.Count > 0))
+            {
+                return new List<ProductViewModel>();
+            }
 
             return mappedProducts;
+
         }
 
         //GET api/products/iPhone%206s
         [HttpGet("{name}")]
-        public IActionResult GetProductsByName(string name) {
+        public IActionResult SearchByName(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return BadRequest();
+            }
             var productsByName = _productRepository.AllIncluding(p => p.Name == name);
             var mappedProducts = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(productsByName);
+
             return Ok(mappedProducts);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetProduct(Guid Id)
+        {
+            return Ok();
         }
     }
 }
