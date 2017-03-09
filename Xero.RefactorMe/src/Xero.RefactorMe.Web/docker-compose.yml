@@ -2,7 +2,7 @@ version: '3'
 
 services:
     webapi:
-        container_name: web
+        container_name: api
         build:
             context: .
             dockerfile: ./Dockerfile
@@ -13,7 +13,7 @@ services:
         networks: 
             - refactor-me-network
         volumes:
-            - .:/usr/src/refactor-me
+            - ../.:/usr/src/refactor-me
         command: ./run_webapi.sh
     db:
         container_name: refme-pgrs
@@ -21,7 +21,7 @@ services:
         environment: 
             POSTGRES_USER: postgres
             POSTGRES_PASSWORD: password
-            POSTGRES_DB: refactor-me
+            POSTGRES_DB: refactor_me
         volumes:
             - postgres_data:/var/lib/postgresql/data
         ports:

@@ -49,7 +49,7 @@ namespace Xero.RefactorMe.Web.Controllers
             return Ok(mappedProducts);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:Guid}")]
         public IActionResult GetProduct(Guid Id)
         {
             return Ok();

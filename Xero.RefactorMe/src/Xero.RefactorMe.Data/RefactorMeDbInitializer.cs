@@ -2,7 +2,6 @@ using Xero.RefactorMe.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Xero.RefactorMe.Data
 {
@@ -53,7 +52,7 @@ namespace Xero.RefactorMe.Data
                     Name = "Apple iPhone 6S",
                     Description = "Newest mobile product from Apple.",
                     Price = new Decimal(1299.99),
-                    DeliveryPrice = new Decimal(15.99)
+                    DeliveryPrice = new Decimal(15.99),
                     ProductOptions = new List<ProductOption>
                     {
                         new ProductOption()

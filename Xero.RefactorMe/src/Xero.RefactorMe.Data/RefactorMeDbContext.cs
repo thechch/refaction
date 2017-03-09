@@ -62,7 +62,9 @@ namespace Xero.RefactorMe.Data
             modelBuilder.Entity<ProductOption>()
                 .HasOne(p => p.Product)
                 .WithMany(po => po.ProductOptions)
-                .HasForeignKey(po => po.ProductId);      
+                .HasForeignKey(po => po.ProductId);
+                
+            base.OnModelCreating(modelBuilder); 
         }
     }
 }
