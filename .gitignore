@@ -116,6 +116,7 @@ Desktop.ini
 *.DotSettings
 *.ncrunch*
 \.vs/
+.vscode
 
 # Octopus Deploy
 !**/packages/OctoPack*/
