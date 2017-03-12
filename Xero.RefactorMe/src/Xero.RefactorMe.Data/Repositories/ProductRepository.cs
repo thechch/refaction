@@ -8,7 +8,7 @@ namespace Xero.RefactorMe.Data
 {
     public class ProductRepository : EntityRepository<Product>, IProductRepository
     {
-        RefactorMeDbContext _context;
+        private readonly RefactorMeDbContext _context;
         public ProductRepository(RefactorMeDbContext context)
             : base(context)
         {

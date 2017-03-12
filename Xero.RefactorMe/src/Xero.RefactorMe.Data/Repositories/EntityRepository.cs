@@ -18,16 +18,6 @@ namespace Xero.RefactorMe.Data.Repositories
             _context = context;
         }
 
-        public virtual IEnumerable<T> AllIncluding(params Expression<Func<T, object>>[] includeProperties)
-        {
-            IQueryable<T> query = _context.Set<T>();
-            foreach (var includeProperty in includeProperties)
-            {
-                query = query.Include(includeProperty);
-            }
-            return query.AsEnumerable();
-        }
-
         public IEnumerable<T> GetAll()
         {
             return _context.Set<T>().AsEnumerable();

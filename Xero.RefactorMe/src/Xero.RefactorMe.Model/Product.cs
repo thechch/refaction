@@ -20,6 +20,6 @@ namespace Xero.RefactorMe.Model
 
         public decimal DeliveryPrice { get; set; }
         
-        public ICollection<ProductOption> ProductOptions { get; set; }
+        public virtual ICollection<ProductOption> ProductOptions { get; set; }
     }
 }
