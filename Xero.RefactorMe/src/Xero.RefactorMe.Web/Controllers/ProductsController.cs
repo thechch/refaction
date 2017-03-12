@@ -14,13 +14,13 @@ namespace Xero.RefactorMe.Web.Controllers
     [Route("[controller]")]
     public class ProductsController : Controller
     {
-        private readonly IProductRepository _productRepository;
+        private readonly IProductRepository _productsRepository;
         private readonly IMapper _mapper;
         private readonly ILogger _logger;
 
         public ProductsController(IProductRepository productRepository, IMapper mapper, ILogger<ProductsController> logger)
         {
-            _productRepository = productRepository;
+            _productsRepository = productRepository;
             _mapper = mapper;
             _logger = logger;
         }
@@ -30,7 +30,7 @@ namespace Xero.RefactorMe.Web.Controllers
         public IEnumerable<ProductViewModel> GetAll()
         {
             //Should be _productsService.GetAll();
-            var products = _productRepository.GetAll();
+            var products = _productsRepository.GetAll();
             var mappedProducts = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(products).ToList();
 
             if (!(mappedProducts.Count > 0))
@@ -49,7 +49,7 @@ namespace Xero.RefactorMe.Web.Controllers
             {
                 return BadRequest();
             }
-            var productsByName = _productRepository.GetByName(name);
+            var productsByName = _productsRepository.GetByName(name);
 
             if (!productsByName.Any())
             {
@@ -65,7 +65,7 @@ namespace Xero.RefactorMe.Web.Controllers
         [HttpGet("{id:Guid}", Name = "GetProduct")]
         public IActionResult GetProduct(Guid Id)
         {
-            var product = _productRepository.GetSingle(Id);
+            var product = _productsRepository.GetSingle(Id);
 
             if(product == null) {
                 return NotFound();
@@ -85,11 +85,11 @@ namespace Xero.RefactorMe.Web.Controllers
             }
 
             var newProduct = _mapper.Map<ProductViewModel, Product>(model);
-            _productRepository.Add(newProduct);
+            _productsRepository.Add(newProduct);
 
             try 
             {
-                _productRepository.Commit();
+                _productsRepository.Commit();
             }
             catch(DbUpdateException e)
             {
@@ -109,18 +109,18 @@ namespace Xero.RefactorMe.Web.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var product = _productRepository.GetSingle(id);
+            var product = _productsRepository.GetSingle(id);
             if(product == null)
             {
                 return NotFound();
             }
 
             var updatedProduct = _mapper.Map<ProductViewModel, Product>(model, product);
-            _productRepository.Update(updatedProduct);
+            _productsRepository.Update(updatedProduct);
 
             try 
             {
-                _productRepository.Commit();
+                _productsRepository.Commit();
             }
             catch(DbUpdateException e)
             {
@@ -135,15 +135,15 @@ namespace Xero.RefactorMe.Web.Controllers
         [HttpDelete("{id:Guid}")]
         public StatusCodeResult Delete(Guid id)
         {
-            var product = _productRepository.GetSingle(id);
+            var product = _productsRepository.GetSingle(id);
             if(product == null)
             {
                 return NotFound();
             }
-             _productRepository.Delete(product);
+             _productsRepository.Delete(product);
             try
             {
-                _productRepository.Commit();
+                _productsRepository.Commit();
             }
             catch(DbUpdateException e)
             {
