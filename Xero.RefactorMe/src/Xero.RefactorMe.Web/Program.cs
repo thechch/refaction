@@ -12,7 +12,8 @@ namespace Xero.RefactorMe.Web
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                .Build();
+				.UseUrls("http://0.0.0.0:5000")
+				.Build();
 
             host.Run();
         }

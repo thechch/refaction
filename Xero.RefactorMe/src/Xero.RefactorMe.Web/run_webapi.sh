@@ -2,6 +2,6 @@
 
 dotnet restore
 
-dotnet ef migrations update
+dotnet ef database update
 
 dotnet run
