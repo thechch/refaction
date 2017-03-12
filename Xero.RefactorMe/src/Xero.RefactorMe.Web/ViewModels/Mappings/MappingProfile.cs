@@ -8,9 +8,11 @@ namespace Xero.RefactorMe.Web
     {
         public MappingProfile()
         {
-            CreateMap<ProductViewModel, Product>()
+            CreateMap<Product, ProductViewModel>()
+                .ForMember(vm => vm.ProductId, m => m.MapFrom(p => p.Id))
                 .ReverseMap();
-            CreateMap<ProductOptionViewModel, ProductOption>()
+            CreateMap<ProductOption, ProductOptionViewModel>()
+                .ForMember(vm => vm.ProductId, m => m.MapFrom(po => po.ProductId))
                 .ReverseMap();
         }
     }
