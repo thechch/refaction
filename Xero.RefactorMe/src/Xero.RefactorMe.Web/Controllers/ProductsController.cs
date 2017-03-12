@@ -27,18 +27,18 @@ namespace Xero.RefactorMe.Web.Controllers
 
         //GET /products
         [HttpGet]
-        public IEnumerable<ProductViewModel> GetAll()
+        public IActionResult GetAll()
         {
-            //Should be _productsService.GetAll();
             var products = _productsRepository.GetAll();
-            var mappedProducts = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(products).ToList();
 
-            if (!(mappedProducts.Count > 0))
+            if (!products.Any())
             {
-                return new List<ProductViewModel>();
+                return NotFound();
             }
 
-            return mappedProducts;
+            var mappedProducts = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(products).ToList();
+
+            return new ObjectResult(mappedProducts);
         }
 
         //GET /products/Apple%20iPhone%206S
@@ -58,7 +58,7 @@ namespace Xero.RefactorMe.Web.Controllers
 
             var mappedProducts = _mapper.Map<IEnumerable<Product>, IEnumerable<ProductViewModel>>(productsByName);
 
-            return Ok(productsByName);
+            return new ObjectResult(productsByName);
         }
 
         //GET /products/de1287c0-4b15-4a7b-9d8a-dd21b3cafec3
@@ -73,7 +73,7 @@ namespace Xero.RefactorMe.Web.Controllers
 
             var mappedProduct = _mapper.Map<Product, ProductViewModel>(product);
 
-            return Ok(mappedProduct);
+            return new ObjectResult(mappedProduct);
         }
 
         //POST /products/
@@ -97,8 +97,8 @@ namespace Xero.RefactorMe.Web.Controllers
                 throw e;
             }
 
-            var updatedProduct = _mapper.Map<Product, ProductViewModel>(newProduct);
-            return CreatedAtRoute("GetProduct", new { id = updatedProduct.ProductId}, updatedProduct);
+            var newModel = _mapper.Map<Product, ProductViewModel>(newProduct);
+            return CreatedAtRoute("GetProduct", new { id = newModel.ProductId}, newModel);
         }
 
         //PUT /products/de1287c0-4b15-4a7b-9d8a-dd21b3cafec3
