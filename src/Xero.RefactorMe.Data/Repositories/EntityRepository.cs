@@ -34,6 +34,12 @@ namespace Xero.RefactorMe.Data.Repositories
             return query.Where(predicate).FirstOrDefault();
         }
 
+        public IEnumerable<T> GetMultiple(Expression<Func<T, bool>> predicate)
+        {
+            IQueryable<T> query = _context.Set<T>();
+            return query.Where(predicate);
+        }
+
         public void Add(T entity)
         {
             EntityEntry dbEntityEntry = _context.Entry<T>(entity);

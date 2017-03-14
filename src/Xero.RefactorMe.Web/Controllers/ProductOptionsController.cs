@@ -30,14 +30,13 @@ namespace Xero.RefactorMe.Web.Controllers
         [HttpGet("products/{productId:Guid}/options")]
         public IActionResult GetOptions(Guid productId)
         {
-            var product = _productRepository.GetSingle(productId);
+            var options = _productOptionRepository.GetMultiple(s => s.ProductId == productId);
 
-            if (product == null || !product.ProductOptions.Any())
+            if (options == null || !options.Any())
             {
                 return NotFound();
             }
 
-            var options = product.ProductOptions;
             var mappedOptions = _mapper.Map<IEnumerable<ProductOption>, IEnumerable<ProductOptionViewModel>>(options).ToList();
 
             return new ObjectResult(mappedOptions);
@@ -47,13 +46,13 @@ namespace Xero.RefactorMe.Web.Controllers
         [HttpGet("products/{productId:Guid}/options/{id:Guid}", Name = "GetOption")]
         public IActionResult GetOption(Guid productId, Guid id)
         {
-            var product = _productRepository.GetSingle(productId);
-            if (product == null || !product.ProductOptions.Any())
+            var options = _productOptionRepository.GetMultiple(s => s.ProductId == productId);
+            if (options == null || !options.Any())
             {
                 return NotFound();
             }
 
-            var option = product.ProductOptions.Where(p => p.Id == id).First();
+            var option = options.Where(p => p.Id == id).First();
             var mappedOption = _mapper.Map<ProductOption, ProductOptionViewModel>(option);
 
             return new ObjectResult(mappedOption);
@@ -69,7 +68,7 @@ namespace Xero.RefactorMe.Web.Controllers
             }
 
             var product = _productRepository.GetSingle(productId);
-            if (product == null || !product.ProductOptions.Any())
+            if (product == null)
             {
                 return NotFound();
             }
@@ -102,13 +101,13 @@ namespace Xero.RefactorMe.Web.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var product = _productRepository.GetSingle(productId);
-            if (product == null || !product.ProductOptions.Any())
+            var options = _productOptionRepository.GetMultiple(s => s.ProductId == productId);
+            if (options == null || !options.Any())
             {
                 return NotFound();
             }
 
-            var option = product.ProductOptions.Where(p => p.Id == id).First();
+            var option = options.Where(p => p.Id == id).First();
 
             var updatedOption = _mapper.Map<ProductOptionViewModel, ProductOption>(model, option);
             option.ProductId = productId;

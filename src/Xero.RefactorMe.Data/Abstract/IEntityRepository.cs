@@ -13,6 +13,8 @@ namespace Xero.RefactorMe.Data.Abstract
 
         T GetSingle(Expression<Func<T, bool>> predicate);
 
+        IEnumerable<T> GetMultiple(Expression<Func<T, bool>> predicate);
+
         void Add(T entity);
 
         void Delete(T entity);

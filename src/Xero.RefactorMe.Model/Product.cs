@@ -5,11 +5,11 @@ namespace Xero.RefactorMe.Model
 {
     public class Product : IEntity
     {
-        public Product()
+        public Product() 
         {
             ProductOptions = new List<ProductOption>();
         }
-
+        
         public Guid Id { get; set; }
 
         public string Name { get; set; }
@@ -20,6 +20,6 @@ namespace Xero.RefactorMe.Model
 
         public decimal DeliveryPrice { get; set; }
         
-        public virtual ICollection<ProductOption> ProductOptions { get; set; }
+        public ICollection<ProductOption> ProductOptions {get; set;}
     }
 }
